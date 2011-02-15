@@ -1,0 +1,112 @@
+<html>
+	<head>
+        <style type="text/css">
+            h1 {
+                padding: 100px
+            }
+            #image_container {
+                border: 2px solid black;
+                position: absolute;
+                top: 200px;
+                left: 100px;
+                width: 600;
+                height: 200;
+                overflow: hidden;
+            }
+            #cropbox {
+                position: absolute;
+            }
+            #controls {
+                position: absolute;
+                top: 450px;
+                left: 100px;
+                width: 600px;
+            }
+        </style>
+		<script src="../js/jquery.min.js"></script>
+
+        <script>
+
+        // Declare vars so they will have global scope
+        var realWidth;
+        var realHeight;
+        var posLeftInitial;
+        var posTopInitial;
+
+        // Gives new image width given original width and fraction
+        function get_new_dim(orig, fraction) {
+            return orig*fraction;
+        };
+
+        // Gives new position given original pos and offset
+        function get_new_pos(orig, offset) {
+            int_orig = parseInt(orig);
+            int_offset = parseInt(offset);
+            return int_orig + int_offset;
+        }
+
+        // Runs once all windows have loaded
+        $(window).load(
+            function() {
+                realWidth = $("#cropbox").attr("naturalWidth");
+                realHeight = $("#cropbox").attr("naturalHeight");
+                pos = $("#cropbox").position();
+                posLeftInitial = pos.left;
+                posTopInitial = pos.top;
+            }
+        );
+
+        // Change image size
+        $('#change_img_size').live("click", function() {
+            new_percent = $('#percent').attr('value');
+            new_fraction = new_percent / 100.0;
+            new_width = realWidth * new_fraction;
+            $('#cropbox').attr('width', new_width);
+        });
+
+        //Move up or down
+        $('#change_top_pos').live("click", function() {
+            offset = $('#top_pos').attr('value');
+            new_pos = get_new_pos(posTopInitial, offset);
+            $('#cropbox').css({top:new_pos});
+        });
+
+        //Move right or left
+        $('#change_left_pos').live("click", function() {
+            offset = $('#left_pos').attr('value');
+            new_pos = get_new_pos(posLeftInitial, offset);
+            $('#cropbox').css({left:new_pos});
+        });
+
+        </script>
+    </head>
+
+    <body>
+
+        <h1>JQuery image cropping and re-sizing</h1>
+
+        <div id="image_container">
+            <img src="demo_files/flowers.jpg" id="cropbox" />
+        </div>
+
+        <div id="controls">
+
+            Change image size: <input type="text" id="percent" value='100' size='4' />% 
+            <input type="submit" value="Submit" id="change_img_size" /><br /><br />
+
+            Move image <input type="text" id="top_pos" value='-0' size='4' /> pixels down (negative numbers go up)
+            <input type="submit" value="Submit" id="change_top_pos" /><br /><br />
+
+            Move image <input type="text" id="left_pos" value='-0' size='4' /> pixels right (negative numbers go left)
+            <input type="submit" value="Submit" id="change_left_pos" /><br /><br />
+
+            <p>Changes are always compared to the original size, so if you type in the 
+                same number twice it won't do anything the 2nd time. E.g. if you type 50%
+                twice the image will still be only half the original size, you would have 
+                to type in 25% to get your image to be a quarter of the original size.
+            </p>
+
+        </div>
+
+    </body>
+</html>
