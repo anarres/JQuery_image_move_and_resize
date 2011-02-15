@@ -1,0 +1,10 @@
+This simple JQuery script allowing the user to change the position and aspect ratio of an image. This is useful in the situation where you want to allow a user to upload and image, and then crop and resize it. (This script doesn't do the cropping, but it allows you to get the coordinates to crop to).
+
+To get this to work you will need to change the <script> path to point to a copy of JQuery on your computer, and you will have to change the <img> tag to point to an image.
+
+This isn't meant to be a finished application, but rather a simple example that can be adapted to your needs.
+
+Enjoy!
+
+K. Harrison
+harrison9340@googlemail.com
